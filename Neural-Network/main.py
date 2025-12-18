@@ -9,7 +9,6 @@ agents = 5
 w = np.array([[0.6, 0, 0, 0.4, 0],[0.2, 0.8, 0, 0, 0], [0.2, 0.1, 0.4, 0, 0.3], [0, 0, 0, 0.6, 0.4],[0, 0.1, 0.6, 0, 0.3]])
 
 dataset = "cifar10"
-epochs = 800
 bs = 32
 
 def parse_args():
@@ -18,9 +17,13 @@ def parse_args():
     parser.add_argument("-t", "--test_num", default=0, type=int)
     parser.add_argument("-r","--run_num", default=0, type=int)
     parser.add_argument("-s", "--stratified", action='store_true')
+    parser.add_argument("-e", "--epochs", default=800, type=int)
+    parser.add_argument("-a", "--accuracy", default=100)
+    parser.add_argument("-p", "--test-accuracy", default=100)
     return parser.parse_args()
 
 args = parse_args()
+epochs = args.epochs
 cwd = os.getcwd()
 results_path = os.path.join(cwd, "results")
 if not os.path.isdir(results_path):
