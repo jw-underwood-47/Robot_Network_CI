@@ -4,6 +4,7 @@ import csv
 from random import shuffle, sample
 from time import perf_counter
 import warnings
+import sys # use exit() to quit on accuracy threshold instead of # of epochs
 
 import numpy as np
 import torch
@@ -238,12 +239,6 @@ class DTrainer:
         self._log(total_acc/total_count)
         acc = total_acc/total_count
         t_acc = self.eval(self.test_loader)
-        '''print(
-                f"Accuracy: {acc:.4f}, "+
-                f"Test Accuracy: {t_acc:.4f}, " +
-                f"Max accuracy: {self.max_accuracy}, "+
-                f"Max test accuracy: {self.max_test_accuracy}, "
-            )'''
         if acc < self.max_accuracy and t_acc < self.max_test_accuracy:
             for i in range(self.agents):
                 self.lr_logs[i].append(self.agent_optimizers[i].collect_params(lr=True))
@@ -261,7 +256,9 @@ class DTrainer:
             )
 
             self.loss_list.append(tot_loss/(self.agents * log_interval))
-
+        else:
+            print(f"Reached specified accuracy threshold: accuracy {acc:.4f}, test accuracy {t_acc:.4f}.  Took {epoch} epochs.")
+            sys.exit(0) # reached desired accuracy
     def trainer(self):
         if self.opt_name == "DAdSGD" or self.opt_name == "DLAS":
             print(f"==> Starting Training for {self.opt_name}, {self.epochs} epochs and {self.agents} agents on the {self.dataset} dataset, via {self.device}")
