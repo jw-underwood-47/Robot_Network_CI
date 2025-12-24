@@ -29,6 +29,8 @@ class DTrainer:
                 w=None,
                 kappa=0.9,
                 fname=None,
+                max_accuracy=1,
+                max_test_accuracy=1,
                 stratified=True):
 
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -51,6 +53,8 @@ class DTrainer:
         self.exp = exp
         self.kappa = kappa
         self.fname = fname
+        self.max_accuracy = max_accuracy
+        self.max_test_accuracy = max_test_accuracy
         self.stratified = stratified
         self.load_data()
         self.w = w
@@ -232,23 +236,31 @@ class DTrainer:
 
     def it_logger(self, total_acc, total_count, epoch, log_interval, tot_loss, start_time):
         self._log(total_acc/total_count)
+        acc = total_acc/total_count
         t_acc = self.eval(self.test_loader)
-        for i in range(self.agents):
-            self.lr_logs[i].append(self.agent_optimizers[i].collect_params(lr=True))
-            if self.opt_name == "DLAS":
-                self.lambda_logs[i].append(self.agent_optimizers[i].collect_lambda())
+        '''print(
+                f"Accuracy: {acc:.4f}, "+
+                f"Test Accuracy: {t_acc:.4f}, " +
+                f"Max accuracy: {self.max_accuracy}, "+
+                f"Max test accuracy: {self.max_test_accuracy}, "
+            )'''
+        if acc < self.max_accuracy and t_acc < self.max_test_accuracy:
+            for i in range(self.agents):
+                self.lr_logs[i].append(self.agent_optimizers[i].collect_params(lr=True))
+                if self.opt_name == "DLAS":
+                    self.lambda_logs[i].append(self.agent_optimizers[i].collect_lambda())
 
-        ss = self.lr_logs[0][-1] if self.opt_name != "DLAS" else self.lambda_logs[0][-1]
-        print(
-            f"Epoch: {epoch+1}, Iteration: {self.running_iteration}, "+ 
-            f"Accuracy: {total_acc/total_count:.4f}, "+ 
-            f"Test Accuracy: {t_acc:.4f}, " + 
-            f"Loss: {tot_loss/(self.agents * log_interval):.4f}, "+
-            f"ss: {ss:.5f}, "+
-            f"Time taken: {perf_counter()-start_time:.4f}"
-        )
-                
-        self.loss_list.append(tot_loss/(self.agents * log_interval))
+            ss = self.lr_logs[0][-1] if self.opt_name != "DLAS" else self.lambda_logs[0][-1]
+            print(
+                f"Epoch: {epoch+1}, Iteration: {self.running_iteration}, "+
+                f"Accuracy: {acc:.4f}, "+
+                f"Test Accuracy: {t_acc:.4f}, " +
+                f"Loss: {tot_loss/(self.agents * log_interval):.4f}, "+
+                f"ss: {ss:.5f}, "+
+                f"Time taken: {perf_counter()-start_time:.4f}"
+            )
+
+            self.loss_list.append(tot_loss/(self.agents * log_interval))
 
     def trainer(self):
         if self.opt_name == "DAdSGD" or self.opt_name == "DLAS":
