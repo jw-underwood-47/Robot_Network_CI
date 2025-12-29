@@ -258,6 +258,8 @@ class DTrainer:
             self.loss_list.append(tot_loss/(self.agents * log_interval))
         else:
             print(f"Reached specified accuracy threshold: accuracy {acc:.4f}, test accuracy {t_acc:.4f}.  Took {epoch} epochs.")
+            #sys.stdout.flush()
+            self._save() # save output in csv file
             sys.exit(0) # reached desired accuracy
     def trainer(self):
         if self.opt_name == "DAdSGD" or self.opt_name == "DLAS":
