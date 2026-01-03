@@ -29,7 +29,7 @@ class DTrainer:
                 exp=0.7,
                 w=None,
                 kappa=0.9,
-                fname=None,
+                fname=None, # always given by main.py; name of file to save CSV output
                 max_accuracy=1,
                 max_test_accuracy=1,
                 stratified=True):
@@ -68,14 +68,18 @@ class DTrainer:
         self.train_iterations.append(self.running_iteration)
 
     def _save(self):
-        with open(self.fname, mode='a') as csv_file:
+        '''
+        method to save accuracy values
+        only needs to be called once, once training is done
+        '''
+        with open(self.fname, mode='a') as csv_file: # append mode
             file = csv.writer(csv_file, lineterminator = '\n')
             file.writerow([f"{self.opt_name}, {self.num}, {self.kmult}, {self.batch_size}, {self.epochs}"])
             file.writerow(self.train_iterations)
             file.writerow(self.train_accuracy)
             file.writerow(self.test_iterations)
             file.writerow(self.test_accuracy)
-            file.writerow(self.loss_list)
+            file.writerow(self.loss_list) # this and five rows above should be lists with values for each run in order
             file.writerow(["ETA"])
             for i in range(self.agents):
                 file.writerow(self.lr_logs[i])
