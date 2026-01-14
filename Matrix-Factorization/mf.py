@@ -12,7 +12,7 @@ def parse_args():
     parser.add_argument("-k", "--kappa", default=0.9, type=float)
     parser.add_argument("-s", "--stratified", default=0, type=int)
     parser.add_argument("-i", "--iterations", default=0, type=int)
-    parser.add_argument("-g","--print_gap", default=0, type=int)
+    parser.add_argument("-g","--print_gap", default=200, type=int)
     return parser.parse_args()
 
 

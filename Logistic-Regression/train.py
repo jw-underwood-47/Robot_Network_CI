@@ -18,6 +18,7 @@ def parse_args():
     parser.add_argument("-s", "--stratified", action='store_true')
     parser.add_argument("-k", "--kappa", default=0.4, type=float)
     parser.add_argument("-i", "--iterations", default=5000, type=int)
+    parser.add_argument("-g","--print_gap", default=200, type=int)
     return parser.parse_args()
 
 args = parse_args()
@@ -33,27 +34,28 @@ agent_matrix = np.array([[0.6, 0, 0, 0.4, 0],[0.2, 0.8, 0, 0, 0], [0.2, 0.1, 0.4
 iterations = args.iterations
 decay = 0.9
 kap = args.kappa
+print_gap = args.print_gap
 # kap = 0.4
 
-dadgd = DAdGD(agent_matrix=agent_matrix, iterations=iterations, data=data)
+dadgd = DAdGD(agent_matrix=agent_matrix, iterations=iterations, data=data, print_gap=print_gap)
 dadgd.train()
 
-doas = DOAS(kap=kap, agent_matrix=agent_matrix, iterations=iterations, data=data)
+doas = DOAS(kap=kap, agent_matrix=agent_matrix, iterations=iterations, data=data, print_gap=print_gap)
 doas.train()
 
-cdgd = CDGD(agent_matrix=agent_matrix, iterations=iterations,data=data)
+cdgd = CDGD(agent_matrix=agent_matrix, iterations=iterations,data=data, print_gap=print_gap)
 cdgd.train()
 
-cdgdp = CDGDP(momentum_param=decay, agent_matrix=agent_matrix, iterations=iterations, data=data)
+cdgdp = CDGDP(momentum_param=decay, agent_matrix=agent_matrix, iterations=iterations, data=data, print_gap=print_gap)
 cdgdp.train()
 
-cdgdn = CDGDN(momentum_param=decay, agent_matrix=agent_matrix, iterations=iterations, data=data)
+cdgdn = CDGDN(momentum_param=decay, agent_matrix=agent_matrix, iterations=iterations, data=data, print_gap=print_gap)
 cdgdn.train()
 
-damsgrad = DAMSGrad(agent_matrix=agent_matrix, iterations=iterations, data=data)
+damsgrad = DAMSGrad(agent_matrix=agent_matrix, iterations=iterations, data=data, print_gap=print_gap)
 damsgrad.train()
 
-dadagrad = DAdaGrad(agent_matrix=agent_matrix, iterations=iterations, data=data)
+dadagrad = DAdaGrad(agent_matrix=agent_matrix, iterations=iterations, data=data, print_gap=print_gap)
 dadagrad.train()
 
 optimizers = [dadgd, doas, cdgd, cdgdp, cdgdn, damsgrad, dadagrad]

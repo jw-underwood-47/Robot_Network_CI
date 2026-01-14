@@ -20,7 +20,7 @@ def parse_args():
     parser.add_argument("-e", "--epochs", default=800, type=int)
     parser.add_argument("-a", "--accuracy", default=1.0, type=float)
     parser.add_argument("-p", "--test_accuracy", default=1.0, type=float)
-    parser.add_argument("-g","--print_gap", default=0, type=int)
+    parser.add_argument("-g","--print_gap", default=2, type=int)
     return parser.parse_args()
 
 args = parse_args()

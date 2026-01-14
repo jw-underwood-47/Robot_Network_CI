@@ -14,7 +14,8 @@ class Trainer:
             data,
             agent_matrix,
             iterations=10000,
-            min_allow=0):
+            min_allow=0,
+            print_gap=200):
 
         self.iterations_tot = iterations
         self.min_allow = min_allow
@@ -22,6 +23,7 @@ class Trainer:
         self.agents = agent_matrix.shape[0]
         self.eta_time = {}
         self.grad_norm = []
+        self.print_gap=print_gap
 
         self.agent_samples = data[0]
         self.agent_targets = data[1]
@@ -71,7 +73,7 @@ class Trainer:
 
         et = sum([et[-1] for et in self.eta.values()])/self.agents
 
-        if iteration % 200 == 0:
+        if iteration % self.print_gap == 0:
             if self.name == "DOAS":
                 temp2 = sum([lamb[-1] for lamb in self.lambda_k.values()])/self.agents
                 print(f"Optimizer: {self.name}, Iteration: {iteration}, Loss: {temp_loss/self.agents}, Lambda: {(temp2)}, LR: {et}")

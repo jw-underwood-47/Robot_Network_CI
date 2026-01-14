@@ -46,6 +46,8 @@ class DTrainer:
 
         global EPOCH_PRINT_FREQUENCY
         EPOCH_PRINT_FREQUENCY = epoch_print_freq
+        ''' constant after being given by user (2 by default);
+        controls how often info is printed to terminal'''
         self.dataset = dataset
         self.epochs = epochs
         self.batch_size = batch_size
@@ -85,7 +87,7 @@ class DTrainer:
             file.writerow(self.train_accuracy)
             file.writerow(self.test_iterations)
             file.writerow(self.test_accuracy)
-            file.writerow(self.loss_list) # this and four rows above should be lists with values for every other epoch in order
+            file.writerow(self.loss_list) # this and four rows above should be lists with values for every EPOCH_PRINT_FREQUENCY epochs in order
             file.writerow(["ETA"])
             for i in range(self.agents):
                 file.writerow(self.lr_logs[i])
