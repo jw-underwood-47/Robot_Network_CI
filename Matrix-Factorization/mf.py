@@ -12,6 +12,7 @@ def parse_args():
     parser.add_argument("-k", "--kappa", default=0.9, type=float)
     parser.add_argument("-s", "--stratified", default=0, type=int)
     parser.add_argument("-i", "--iterations", default=0, type=int)
+    parser.add_argument("-g","--print_gap", default=0, type=int)
     return parser.parse_args()
 
 
@@ -36,7 +37,7 @@ for i in range(agents):
     eta_list[i] = [1e-9]
     grad_list[i] = []
 
-skip = 200
+skip = args.print_gap
 
 if strat:
     adaL = 5e4
