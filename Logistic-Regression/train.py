@@ -16,8 +16,8 @@ def parse_args():
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-s", "--stratified", action='store_true')
-    parser.add_argument("-k", "--kappa", type=float, default=0.4) 
-    parser.add_argument("-i", "--iterations", type=int, default=5000)                      
+    parser.add_argument("-k", "--kappa", default=0.4, type=float)
+    parser.add_argument("-i", "--iterations", default=5000, type=int)
 
     return parser.parse_args()
 

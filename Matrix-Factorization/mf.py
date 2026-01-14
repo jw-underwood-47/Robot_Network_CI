@@ -11,6 +11,7 @@ def parse_args():
     parser.add_argument("-t", "--test_num", default=5, type=int)      
     parser.add_argument("-k", "--kappa", default=0.9, type=float)
     parser.add_argument("-s", "--stratified", default=0, type=int)
+    parser.add_argument("-i", "--iterations", default=0, type=int)
     return parser.parse_args()
 
 
@@ -39,10 +40,10 @@ skip = 200
 
 if strat:
     adaL = 5e4
-    iterations = 40000
+    iterations = 40000 if args.iterations <= 0 else args.iterations
 else:
     adaL = 1e4
-    iterations = 100000
+    iterations = 100000 if args.iterations <= 0 else args.iterations
 
 L = 1e5
 n_L = 1e5
