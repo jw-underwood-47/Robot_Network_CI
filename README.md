@@ -1,16 +1,16 @@
 # Decentralized learning with automated stepsizes
 To run an experiment with neural networks, use
 ```
-python3 main.py
+python3 main.py [options]
 ```
-while that folder.
+while in that folder.
 For matrix factorization, use
 ```
-python3 mf.py
+python3 mf.py [options]
 ```
 and for logistic regression use
 ```
-python3 train.py
+python3 train.py [options]
 ```
 
 Command line arguments are -s for stratified data and -g to control how often output is printed to the command window for all programs. -a and -p can be used to terminate the program on a given training and test accuracy, respectively, for neural networks (which tend to be the slowest).  -e (neural networks) and -i (the other two) can also be used to shorten the training and thus the program's runtime. -t and -r do not affect how the code behaves, but may be used in scripts and affect file names. -k is used to control kappa when using DOAS (not an option for neural networks).
