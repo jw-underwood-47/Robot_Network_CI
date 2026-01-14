@@ -63,7 +63,10 @@ class DTrainer:
         self.agent_setup()
 
     def _log(self, accuracy):
-        ''' Helper function to log accuracy values'''
+        '''
+        Helper function to log accuracy values
+        Appends values to list that will be written to file with _save
+        '''
         self.train_accuracy.append(accuracy)
         self.train_iterations.append(self.running_iteration)
 
@@ -79,7 +82,7 @@ class DTrainer:
             file.writerow(self.train_accuracy)
             file.writerow(self.test_iterations)
             file.writerow(self.test_accuracy)
-            file.writerow(self.loss_list) # this and five rows above should be lists with values for each run in order
+            file.writerow(self.loss_list) # this and four rows above should be lists with values for each run in order
             file.writerow(["ETA"])
             for i in range(self.agents):
                 file.writerow(self.lr_logs[i])
