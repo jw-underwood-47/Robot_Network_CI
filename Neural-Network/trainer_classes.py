@@ -44,8 +44,7 @@ class DTrainer:
         self.lambda_logs = {}
         self.loss_list = []
 
-        global EPOCH_PRINT_FREQUENCY
-        EPOCH_PRINT_FREQUENCY = epoch_print_freq
+        self.print_freq = epoch_print_freq
         ''' constant after being given by user (2 by default);
         controls how often info is printed to terminal'''
         self.dataset = dataset
@@ -87,7 +86,7 @@ class DTrainer:
             file.writerow(self.train_accuracy)
             file.writerow(self.test_iterations)
             file.writerow(self.test_accuracy)
-            file.writerow(self.loss_list) # this and four rows above should be lists with values for every EPOCH_PRINT_FREQUENCY epochs in order
+            file.writerow(self.loss_list) # this and four rows above should be lists with values for every print_freq epochs in order
             file.writerow(["ETA"])
             for i in range(self.agents):
                 file.writerow(self.lr_logs[i])
@@ -346,7 +345,7 @@ class DAdSGDTrainer(DTrainer):
                 self.agent_optimizers[i].set_norms(grad_diff[i], param_diff[i])
                 self.agent_optimizers[i].step(self.running_iteration, vars=vars)
             
-            if idx % log_interval == 0 and idx > 0 and epoch % EPOCH_PRINT_FREQUENCY == 0:
+            if idx % log_interval == 0 and idx > 0 and epoch % self.print_freq == 0:
                 self.it_logger(total_acc, total_count, epoch, log_interval, tot_loss, start_time)
                 total_acc, total_count, tot_loss = 0, 0, 0
                 self.agent_models[i].train()
@@ -410,7 +409,7 @@ class DLASTrainer(DTrainer):
                 self.agent_optimizers[i].set_norms(grad_diff[i], param_diff[i])
                 self.agent_optimizers[i].step(self.running_iteration, vars=vars, lambdas=lambdas)
 
-            if idx % log_interval == 0 and idx > 0 and epoch % EPOCH_PRINT_FREQUENCY == 0:
+            if idx % log_interval == 0 and idx > 0 and epoch % self.print_freq == 0:
                 self.it_logger(total_acc, total_count, epoch, log_interval, tot_loss, start_time)
                 total_acc, total_count, tot_loss = 0, 0, 0
                 self.agent_models[i].train()
@@ -458,7 +457,7 @@ class CDSGDTrainer(DTrainer):
             for i in range(self.agents):
                 self.agent_optimizers[i].step(self.running_iteration, vars=vars)
             
-            if idx % log_interval == 0 and idx > 0 and epoch % EPOCH_PRINT_FREQUENCY == 0:
+            if idx % log_interval == 0 and idx > 0 and epoch % self.print_freq == 0:
                 self.it_logger(total_acc, total_count, epoch, log_interval, tot_loss, start_time)
                 total_acc, total_count, tot_loss = 0, 0, 0
                 self.agent_models[i].train()
@@ -505,7 +504,7 @@ class CDSGDPTrainer(DTrainer):
             for i in range(self.agents):
                 self.agent_optimizers[i].step(self.running_iteration, vars=vars)
             
-            if idx % log_interval == 0 and idx > 0 and epoch % EPOCH_PRINT_FREQUENCY == 0:
+            if idx % log_interval == 0 and idx > 0 and epoch % self.print_freq == 0:
                 self.it_logger(total_acc, total_count, epoch, log_interval, tot_loss, start_time)
                 total_acc, total_count, tot_loss = 0, 0, 0
                 self.agent_models[i].train()
@@ -553,7 +552,7 @@ class CDSGDNTrainer(DTrainer):
             for i in range(self.agents):
                 self.agent_optimizers[i].step(self.running_iteration, vars=vars)
             
-            if idx % log_interval == 0 and idx > 0 and epoch % EPOCH_PRINT_FREQUENCY == 0:
+            if idx % log_interval == 0 and idx > 0 and epoch % self.print_freq == 0:
                 self.it_logger(total_acc, total_count, epoch, log_interval, tot_loss, start_time)
                 total_acc, total_count, tot_loss = 0, 0, 0
                 self.agent_models[i].train()
@@ -602,7 +601,7 @@ class DAMSGradTrainer(DTrainer):
             for i in range(self.agents):
                 self.agent_optimizers[i].step(self.running_iteration, vars=vars, u_tilde_5_all=u_tilde_5)
 
-            if idx % log_interval == 0 and idx > 0 and epoch % EPOCH_PRINT_FREQUENCY == 0:
+            if idx % log_interval == 0 and idx > 0 and epoch % self.print_freq == 0:
                 self.it_logger(total_acc, total_count, epoch, log_interval, tot_loss, start_time)
                 total_acc, total_count, tot_loss = 0, 0, 0
                 self.agent_models[i].train()
@@ -653,7 +652,7 @@ class DAdaGradTrainer(DTrainer):
                 self.agent_optimizers[i].step(self.running_iteration, vars=vars, u_tilde_5_all=u_tilde_5)
 
             
-            if idx % log_interval == 0 and idx > 0 and epoch % EPOCH_PRINT_FREQUENCY == 0:
+            if idx % log_interval == 0 and idx > 0 and epoch % self.print_freq == 0:
                 self.it_logger(total_acc, total_count, epoch, log_interval, tot_loss, start_time)
                 total_acc, total_count, tot_loss = 0, 0, 0
                 self.agent_models[i].train()
