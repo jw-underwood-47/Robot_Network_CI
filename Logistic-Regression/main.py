@@ -5,7 +5,7 @@ import sys
 import numpy as np
 
 from trainer_classes import *
-from util import load_data, plot_all_losses
+from parent_trainer import load_data, plot_all_losses
 
 dataset = "mushrooms"
 cwd = os.getcwd()
