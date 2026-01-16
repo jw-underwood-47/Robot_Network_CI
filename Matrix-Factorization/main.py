@@ -3,7 +3,7 @@ import os
 
 import numpy as np
 
-from mfutil import *
+from trainer_functions import *
 
 def parse_args():
     ''' Function parses command line arguments '''

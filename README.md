@@ -1,14 +1,10 @@
 # Decentralized learning with automated stepsizes
-To run an experiment with neural networks, use
+To run an experiment with neural networks or matrix factorization, use
 ```
 python3 main.py [options]
 ```
 while in that folder.
-For matrix factorization, use
-```
-python3 mf.py [options]
-```
-and for logistic regression use
+For logistic regression use
 ```
 python3 train.py [options]
 ```

@@ -1,3 +1,7 @@
+'''
+Implement various algorithms as functions,
+which are called by main.py in this folder
+'''
 import csv
 
 import numpy as np
