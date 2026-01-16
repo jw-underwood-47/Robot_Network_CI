@@ -3,7 +3,7 @@ import os
 
 import numpy as np
 
-from train import *
+from trainer_classes import *
 
 agents = 5
 w = np.array([[0.6, 0, 0, 0.4, 0],[0.2, 0.8, 0, 0, 0], [0.2, 0.1, 0.4, 0, 0.3], [0, 0, 0, 0.6, 0.4],[0, 0.1, 0.6, 0, 0.3]])
