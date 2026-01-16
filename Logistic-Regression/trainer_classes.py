@@ -2,7 +2,7 @@ import numpy as np
 
 import numpy.linalg as la
 
-from util import Trainer
+from parent_trainer import Trainer
 
 class CDGD(Trainer):
     def __init__(self, *args, **kwargs):

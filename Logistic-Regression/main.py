@@ -4,7 +4,7 @@ import sys
 
 import numpy as np
 
-from optimizers import *
+from trainer_classes import *
 from util import load_data, plot_all_losses
 
 dataset = "mushrooms"
