@@ -9,7 +9,6 @@ agents = 5
 w = np.array([[0.6, 0, 0, 0.4, 0],[0.2, 0.8, 0, 0, 0], [0.2, 0.1, 0.4, 0, 0.3], [0, 0, 0, 0.6, 0.4],[0, 0.1, 0.6, 0, 0.3]])
 
 dataset = "cifar10"
-bs = 32
 
 def parse_args():
     ''' Function parses command line arguments '''
@@ -21,6 +20,7 @@ def parse_args():
     parser.add_argument("-a", "--accuracy", default=1.0, type=float)
     parser.add_argument("-p", "--test_accuracy", default=1.0, type=float)
     parser.add_argument("-g","--print_gap", default=2, type=int)
+    parser.add_argument("-b","--batch_size", default=32, type=int)
     return parser.parse_args()
 
 args = parse_args()
@@ -28,6 +28,7 @@ epochs = args.epochs
 max_accuracy = args.accuracy
 max_test_accuracy = args.test_accuracy
 print_gap = args.print_gap
+bs = args.batch_size
 cwd = os.getcwd()
 results_path = os.path.join(cwd, "results")
 if not os.path.isdir(results_path):
