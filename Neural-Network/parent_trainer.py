@@ -19,9 +19,10 @@ warnings.filterwarnings("ignore")
 class DTrainer:
     def __init__(self,
                 dataset="cifar10",
-                epochs=100,
-                batch_size=32,
-                lr=0.02,
+                epochs=100, # controlled by command line argument
+                batch_size=32, # controlled by command line argument
+                # lowering sufficiently causes code to run very slowly
+                lr=0.02, # learning rate
                 workers=4,
                 agents=5,
                 num=0.5,
