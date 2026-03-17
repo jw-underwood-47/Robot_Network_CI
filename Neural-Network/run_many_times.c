@@ -3,30 +3,31 @@
 #include <string.h>
 #include <unistd.h>
 #include <getopt.h>
+#define DEF_EPOCH_INCREMENT 10
 
 void print_usage(const char *prog) {
     printf("Usage: %s [options]\n", prog);
     printf("  -a, --accuracy <float>          (default: 1.0)\n");
     printf("  -b, --batch_size <v1> [v2]      (default: 32 32)\n");
-    printf("  -e, --epochs <v1> [v2]          (default: 800 800)\n");
+    printf("  -e, --epochs <v1> [v2] [incr]   (default: 800 800 10)\n");
     printf("  -g, --print_gap <int>           (default: 2)\n");
     printf("  -l, --learning_rate <v1> [v2]   (default: 0.02 0.02)\n");
     printf("  -p, --test_accuracy <float>     (default: 1.0)\n");
     printf("  -r, --run_num <int>             (default: 0)\n");
     printf("  -s, --stratified                (flag)\n");
     printf("  -t, --test_num <int>            (default: 0)\n");
-    printf(" Additional info: epochs increment by 10.\n Batch size doubles each time.\n Learning rate increments by 0.01\n");
+    printf(" Additional info: epochs increment by 10 unless modified with the third number ([incr]) after -e.\n Batch size doubles each time.\n Learning rate increments by 0.01\n");
 }
 
 int main(int argc, char *argv[]) {
-    int opt, bs = 0, epoch = 0, second_epoch = 0, second_bs = 0;
+    int opt, bs = 0, epoch = 0, epoch_increment = 0, max_epoch = 0, second_bs = 0;
     float def_lr = 0.02, lr = 0, second_lr = 0;
     int def_bs = 32, def_epoch = 800;
     /* Defaults */
     char *accuracy = "1.0";
 
     char *batch_size[2] = {"32", "32"};
-    char *epochs[2] = {"800", "800"};
+    char *epochs[3] = {"800", "800", "10"};
     char *learning_rate[2] = {"0.02", "0.02"};
 
     char *print_gap = "2";
@@ -69,9 +70,17 @@ int main(int argc, char *argv[]) {
             case 'e':
                 epochs[0] = optarg;
                 epoch = atoi(epochs[0]);
+                // check for more arguments indicating max number
+                // of epochs and increments between runs
+                // check for max first because increment doesn't
+                // make sense otherwise
                 if (optind < argc && argv[optind][0] != '-') {
                     epochs[1] = argv[optind++];
-                    second_epoch = atoi(epochs[1]);
+                    max_epoch = atoi(epochs[1]);
+                    if (optind < argc && argv[optind][0] != '-') {
+                        epochs[2] = argv[optind++];
+                        epoch_increment = atoi(epochs[2]);
+                    }
                 }
                 break;
 
@@ -126,14 +135,15 @@ int main(int argc, char *argv[]) {
         printf("stratified = %s\n", stratified ? "true" : "false");
 
         if (epoch == 0) epoch = def_epoch;
-        if (second_epoch == 0) second_epoch = epoch;
+        if (max_epoch == 0) max_epoch = epoch;
+        if (epoch_increment == 0) epoch_increment = DEF_EPOCH_INCREMENT;
         if (bs == 0) bs = def_bs;
         if (second_bs == 0) second_bs = bs;
         if (lr == 0) lr = def_lr;
         if (second_lr == 0) second_lr = lr;
-        printf("set new values: %d %d %f %d %d %f\n", bs, epoch, lr, second_bs, second_epoch, second_lr);
+        printf("set new values: %d %d %f %d %d %f\n", bs, epoch, lr, second_bs, max_epoch, second_lr);
 
-        for (int i = epoch; i <= second_epoch; i+=10){
+        for (int i = epoch; i <= max_epoch; i+=epoch_increment){
             //printf("in first for loop\n");
             for (int j = bs; j <= second_bs; j*=2){
                 //printf("in second for loop\n");
