@@ -10,12 +10,10 @@ Command line arguments are -s for stratified data and -g to control how often ou
 I am working on bringing the three folders closer together in organization/style, as there are currently some differences in how class definitions are split across files (and the matrix factorization folder implements most of it as functions instead of methods).
 
 ### Auto-launcher
-In the Neural-Network folder there is a C file called `run_many_times.c`. To use this, compile it with ```gcc -o [exceutable_name] run_many_times.c```.  
+In the Neural-Network folder there is a C file called `claude_fix_first_try.c`. To use this, compile it with ```gcc -o [exceutable_name] claude_fix_first_try.c```. This file may be renamed later.  
 Arguments are similar to those for an individual run, but you can specify the minimum and maximum learning rates, number of epochs, and batch sizes by giving two arguments to those functions.  Giving one argument will cause all runs launched by the program to have that constant value.  The increment in number of epochs between runs defaults to 10, though adding a third number after -e allows you to change this.  I intend to add more useful arguments in the future.  The -h option provides more useful information  
-This program uses system() to launch the python scripts, so you still need to be in an environment where all of the dependencies are satisfied before running this code.
-
-### a small note about the use of system() in the launcher
-I may fix this eventually, but currently the launcher uses system() to call the python script, using strings as given by the user.  This is not safe; running ```./[executable] -a 1; ls; # ``` would indeed cause the command ls to run once the rest of the program has completed (ignoring all non- -a options).
+This program uses fork() and exec() to launch the python scripts, so you still need to be in an environment where all of the dependencies are satisfied before running this code.
+Additionally, running multiple tests in parallel is supported with the -j (or --jobs) option, which keeps track of how many separate instances of main.py are running and caps them at the set number (one by default).  This part was written by Claude (hence the name), and does not have some potentially desirable features such as in some way distinguishing what output goes with what main.py run.
 
 ### original README
 Each of the three experiments contain a `trainer.sh` script that can be used to train all runs for the given experiment, which will store all data in corresponding results folders with `.csv` files.
