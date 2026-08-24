@@ -16,7 +16,7 @@ Command line arguments are as follows:
  * -e or --epochs to terminate training after the given number of epochs.
     Defaults to 800, which will take a while to run.  
 ###### Other options
-    -i (non-neural-network programs) can also be used to shorten the training and thus the program's runtime. -t and -r do not affect how the code behaves, but may be used in scripts and affect file names. -k is used to control kappa when using DOAS (not an option for neural networks).
+-i (non-neural-network programs) can also be used to shorten the training and thus the program's runtime. -t and -r do not affect how the code behaves, but may be used in scripts and affect file names. -k is used to control kappa when using DOAS (not an option for neural networks).
 
 I am working on bringing the three folders closer together in organization/style, as there are currently some differences in how class definitions are split across files (and the matrix factorization folder implements most of it as functions instead of methods).
 
