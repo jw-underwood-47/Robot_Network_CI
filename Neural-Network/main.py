@@ -17,6 +17,7 @@ def parse_args():
     parser.add_argument("-b","--batch_size", default=32, type=int)
     parser.add_argument("-e", "--epochs", default=800, type=int)
     parser.add_argument("-g","--print_gap", default=2, type=int)
+    parser.add_argument("-k", "--kappa", default=0.37, type=float)
     parser.add_argument("-l","--learning_rate", default=0.02, type=float)
     parser.add_argument("-p", "--test_accuracy", default=1.0, type=float)
     parser.add_argument("-r","--run_num", default=0, type=int)
@@ -30,6 +31,7 @@ max_accuracy = args.accuracy
 max_test_accuracy = args.test_accuracy
 print_gap = args.print_gap
 bs = args.batch_size
+kappa = args.kappa
 lr = args.learning_rate
 cwd = os.getcwd()
 results_path = os.path.join(cwd, "results")
@@ -44,7 +46,7 @@ print(f"Test Num {args.test_num}, run num: {args.run_num}, {fname}")
 if args.test_num == 0:
     DAdSGDTrainer(dataset=dataset, batch_size=bs, epochs=epochs,w=w, fname=fname, stratified=stratified, max_accuracy=max_accuracy, max_test_accuracy=max_test_accuracy, epoch_print_freq=print_gap, lr=lr)
 elif args.test_num == 1:
-    DLASTrainer(dataset=dataset, batch_size=bs, epochs=epochs, w=w, kappa=0.37, fname=fname, stratified=stratified, max_accuracy=max_accuracy, max_test_accuracy=max_test_accuracy, epoch_print_freq=print_gap, lr=lr)
+    DLASTrainer(dataset=dataset, batch_size=bs, epochs=epochs, w=w, kappa=kappa, fname=fname, stratified=stratified, max_accuracy=max_accuracy, max_test_accuracy=max_test_accuracy, epoch_print_freq=print_gap, lr=lr)
 elif args.test_num == 2:
     DAMSGradTrainer(dataset=dataset, batch_size=bs, epochs=epochs, w=w, fname=fname, stratified=stratified, max_accuracy=max_accuracy, max_test_accuracy=max_test_accuracy, epoch_print_freq=print_gap, lr=lr)
 elif args.test_num == 3:
